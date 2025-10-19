@@ -1,0 +1,107 @@
+/**
+ * RTL Sidebar CSS - الشريط الجانبي على الجانب الأيمن
+ * يضمن عرض الشريط الجانبي على الجانب الأيمن من الشاشة
+ */
+
+/* إعدادات عامة للـ body */
+body {
+    direction: rtl !important;
+    text-align: right !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* الشريط الجانبي - على الجانب الأيمن */
+.sidebar {
+    position: fixed !important;
+    right: 0 !important;
+    left: auto !important;
+    top: 0 !important;
+    width: 280px !important;
+    height: 100vh !important;
+    z-index: 1000 !important;
+    direction: rtl !important;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1) !important;
+}
+
+/* المحتوى الرئيسي - يجب أن يترك مساحة للشريط الجانبي من اليمين */
+.main-content {
+    margin-right: 300px !important;
+    margin-left: 0 !important;
+    padding: 20px !important;
+    min-height: 100vh !important;
+    direction: rtl !important;
+    text-align: right !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+}
+
+/* للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(100%) !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0) !important;
+    }
+    
+    .main-content {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+}
+
+/* إعدادات خاصة لتبويبات الشريط الجانبي */
+.sidebar .nav-item {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.sidebar .sidebar-header {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.sidebar .sidebar-footer {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* إعدادات للنصوص العربية */
+* {
+    font-family: 'Amiri', 'Cairo', 'Tahoma', sans-serif !important;
+}
+
+/* إعدادات للبطاقات والشبكات */
+.stats-grid,
+.dashboard-container,
+.welcome-card,
+.stat-card,
+.page-header,
+.quick-actions {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+/* إصلاح الحواف والظلال */
+.sidebar {
+    border-left: 1px solid rgba(255,255,255,0.1) !important;
+    border-right: none !important;
+}
+
+/* إعدادات خاصة لتقوية الموضع */
+html[dir="rtl"] .sidebar,
+html[lang="ar"] .sidebar,
+body[dir="rtl"] .sidebar {
+    right: 0 !important;
+    left: auto !important;
+}
+
+html[dir="rtl"] .main-content,
+html[lang="ar"] .main-content,
+body[dir="rtl"] .main-content {
+    margin-right: 300px !important;
+    margin-left: 0 !important;
+}

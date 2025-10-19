@@ -1,0 +1,159 @@
+/* التنسيقات الخاصة بصفحة التقدم الدراسي للهواتف */
+@media (max-width: 768px) {
+    .main-content {
+        margin-right: 0;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .progress-header {
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .progress-header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .stat-card {
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        margin: 10px 0;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+    }
+
+    .progress-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .section-card {
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .chart-container {
+        height: 200px;
+        margin: 15px 0;
+    }
+
+    .subjects-progress {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .subject-progress-card {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .subject-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .subject-title {
+        font-size: 1.1rem;
+    }
+
+    .progress-details {
+        margin-top: 15px;
+    }
+
+    .detail-item {
+        padding: 10px;
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .achievement-card {
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .achievement-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .achievement-title {
+        font-size: 0.9rem;
+        margin: 8px 0;
+    }
+
+    .progress-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .filter-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        border-radius: 20px;
+        flex: 1;
+        min-width: calc(50% - 5px);
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-btn {
+        min-width: 100%;
+    }
+
+    .chart-container {
+        height: 180px;
+    }
+}

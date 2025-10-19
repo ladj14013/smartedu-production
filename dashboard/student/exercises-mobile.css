@@ -1,0 +1,102 @@
+/* التنسيقات الخاصة بصفحة التمارين للهواتف */
+@media (max-width: 968px) {
+    .main-content {
+        margin-right: 0 !important;
+        padding: 20px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-right: 0;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .page-header {
+        padding: 20px 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .exercises-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .exercise-card {
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    .exercise-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .exercise-title {
+        font-size: 1.2rem;
+    }
+
+    .exercise-meta {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .meta-item {
+        font-size: 0.9rem;
+    }
+
+    .exercise-actions {
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 15px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .status-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    .exercise-progress {
+        margin-top: 10px;
+    }
+
+    .progress-bar {
+        height: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .exercise-card {
+        margin: 0 5px;
+    }
+
+    .meta-item {
+        font-size: 0.85rem;
+    }
+}

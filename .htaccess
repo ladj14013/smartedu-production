@@ -1,0 +1,33 @@
+# SmartEdu Hub - Apache Configuration
+
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Allow direct access to files and folders
+# Only redirect root to public/index.html
+RewriteCond %{REQUEST_URI} ^/smartedu/?$
+RewriteRule ^$ public/index.html [L]
+
+# Set default character set
+AddDefaultCharset UTF-8
+
+# Enable error reporting (disable in production)
+php_flag display_errors On
+php_value error_reporting E_ALL
+
+# Set session settings
+php_value session.cookie_httponly 1
+php_value session.use_strict_mode 1
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Protect sensitive files (only hidden files like .env)
+<FilesMatch "^\.(env|git|htaccess)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

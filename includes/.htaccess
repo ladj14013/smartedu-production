@@ -1,0 +1,5 @@
+# حماية مجلد includes
+# منع الوصول المباشر لجميع الملفات
+
+Order deny,allow
+Deny from all

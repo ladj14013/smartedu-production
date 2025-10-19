@@ -1,0 +1,131 @@
+/**
+ * RTL Styles for Parent Dashboard
+ * تنسيقات RTL للوحة تحكم ولي الأمر
+ */
+
+/* Sidebar RTL Positioning */
+.sidebar {
+    position: fixed;
+    right: 0 !important;
+    left: auto !important;
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+    box-shadow: -4px 0 20px rgba(139, 92, 246, 0.15);
+    z-index: 1000;
+    direction: rtl;
+}
+
+/* Main Content with RTL margin */
+.main-content {
+    margin-right: 300px !important;
+    margin-left: 0 !important;
+    padding: 30px;
+    min-height: 100vh;
+    direction: rtl;
+    width: auto;
+    box-sizing: border-box;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    flex-direction: row-reverse;
+    min-height: 100vh;
+    background: #f5f5f5;
+    direction: rtl;
+}
+
+/* Cards and Stats */
+.stats-grid,
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    direction: rtl;
+}
+
+.stat-card,
+.link-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    direction: rtl;
+}
+
+/* Tables RTL */
+table {
+    direction: rtl;
+    text-align: right;
+}
+
+th, td {
+    text-align: right !important;
+}
+
+/* Buttons and Links */
+.btn, .btn-view, .btn-primary {
+    direction: rtl;
+}
+
+/* Forms */
+.form-group,
+.filter-group {
+    direction: rtl;
+    text-align: right;
+}
+
+input, select, textarea {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Nav Items */
+.nav-item {
+    direction: rtl;
+    text-align: right;
+}
+
+.nav-item.active::before {
+    right: 0;
+    left: auto;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .sidebar {
+        transform: translateX(100%);
+        right: 0;
+        left: auto;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .mobile-toggle {
+        right: 20px;
+        left: auto;
+    }
+}
+
+/* Override any LTR styles */
+body[dir="rtl"] .sidebar,
+html[dir="rtl"] .sidebar {
+    right: 0 !important;
+    left: auto !important;
+}
+
+body[dir="rtl"] .main-content,
+html[dir="rtl"] .main-content {
+    margin-right: 300px !important;
+    margin-left: 0 !important;
+}

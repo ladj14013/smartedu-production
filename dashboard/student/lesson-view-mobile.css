@@ -1,0 +1,152 @@
+/* التنسيقات الخاصة بصفحة عرض الدرس للهواتف */
+@media (max-width: 768px) {
+    .main-content {
+        margin-right: 0;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .lesson-header-section {
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+
+    .subject-badge {
+        padding: 5px 12px;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+    .lesson-header-section h1 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        line-height: 1.4;
+    }
+
+    .lesson-meta {
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 0.9rem;
+    }
+
+    .lesson-meta span {
+        background: rgba(255,255,255,0.15);
+        padding: 5px 12px;
+        border-radius: 20px;
+        width: calc(50% - 6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .lesson-content {
+        padding: 20px;
+        border-radius: 12px;
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+
+    .lesson-sidebar {
+        position: relative;
+        top: 0;
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .chapter-list {
+        margin-top: 15px;
+    }
+
+    .chapter-item {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+
+    .progress-section {
+        padding: 15px;
+        margin-top: 15px;
+        border-radius: 10px;
+    }
+
+    .progress-bar {
+        height: 8px;
+        margin: 10px 0;
+    }
+
+    .btn-next, .btn-prev {
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .attachment-section {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .attachment-list {
+        margin-top: 10px;
+    }
+
+    .attachment-item {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .video-container {
+        border-radius: 12px;
+        margin: 15px 0;
+        overflow: hidden;
+    }
+
+    .video-container iframe {
+        width: 100%;
+        height: 200px;
+    }
+
+    .lesson-footer {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lesson-header-section {
+        padding: 15px;
+    }
+
+    .lesson-header-section h1 {
+        font-size: 1.3rem;
+    }
+
+    .lesson-meta span {
+        width: 100%;
+    }
+
+    .lesson-content {
+        padding: 15px;
+        font-size: 0.95rem;
+    }
+
+    .video-container iframe {
+        height: 180px;
+    }
+}

@@ -1,0 +1,82 @@
+/* SmartEdu Hub - خط Amiri الرسمي */
+/* تحميل خط Amiri من Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* تطبيق خط Amiri على جميع العناصر */
+* {
+    font-family: 'Amiri', serif !important;
+}
+
+/* خصائص خاصة للنصوص العربية */
+body {
+    font-family: 'Amiri', serif !important;
+    direction: rtl;
+    text-align: right;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+/* تحسين عرض النصوص العربية */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Amiri', serif !important;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+/* تحسين الأزرار والنماذج */
+button, input, textarea, select {
+    font-family: 'Amiri', serif !important;
+    font-size: 16px;
+}
+
+/* تحسين الروابط */
+a {
+    font-family: 'Amiri', serif !important;
+}
+
+/* تحسين القوائم */
+ul, ol, li {
+    font-family: 'Amiri', serif !important;
+}
+
+/* تحسين الجداول */
+table, th, td {
+    font-family: 'Amiri', serif !important;
+}
+
+/* الشريط الجانبي */
+.sidebar {
+    font-family: 'Amiri', serif !important;
+}
+
+.sidebar * {
+    font-family: 'Amiri', serif !important;
+}
+
+/* لوحات التحكم */
+.dashboard * {
+    font-family: 'Amiri', serif !important;
+}
+
+/* النماذج */
+.form-control, .form-group label, .form-group input {
+    font-family: 'Amiri', serif !important;
+}
+
+/* البطاقات */
+.card, .card-header, .card-body, .card-title {
+    font-family: 'Amiri', serif !important;
+}
+
+/* تحسين عرض الأرقام العربية */
+.arabic-numbers {
+    direction: ltr;
+    text-align: left;
+}
+
+/* تحسين النصوص المختلطة (عربي/إنجليزي) */
+.mixed-text {
+    direction: rtl;
+    text-align: right;
+    unicode-bidi: embed;
+}

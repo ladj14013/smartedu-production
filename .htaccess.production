@@ -1,0 +1,229 @@
+# ============================================
+# SmartEdu Hub - Production Apache Configuration
+# ============================================
+# استخدم هذا الملف عند رفع الموقع للإنترنت
+# انسخه واستبدل .htaccess الحالي
+
+# ============================================
+# 1. إعدادات أساسية
+# ============================================
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Set default character set
+AddDefaultCharset UTF-8
+
+# Disable directory browsing
+Options -Indexes
+
+# Follow symbolic links
+Options +FollowSymLinks
+
+# ============================================
+# 2. إعدادات الأمان - حماية الملفات الحساسة
+# ============================================
+# حماية ملفات النظام والإعدادات
+<FilesMatch "^\.(env|git|htaccess|gitignore)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# حماية ملفات PHP الحساسة (test, setup, config, etc.)
+<FilesMatch "(test|check|setup|fix|update|run|view_users|info|phpinfo)\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# منع الوصول لملفات قواعد البيانات
+<FilesMatch "\.(sql|sqlite|db)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# منع الوصول لملفات اللوج
+<FilesMatch "\.(log|txt)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# منع الوصول لملفات Markdown (التوثيق)
+<FilesMatch "\.md$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# ============================================
+# 3. إعدادات PHP للإنتاج
+# ============================================
+# إيقاف عرض الأخطاء (CRITICAL للإنتاج)
+php_flag display_errors Off
+php_flag display_startup_errors Off
+php_value error_reporting 0
+
+# تسجيل الأخطاء في ملف
+php_flag log_errors On
+php_value error_log /path/to/php-error.log
+
+# حد أقصى لحجم الملفات المرفوعة (تعديل حسب الحاجة)
+php_value upload_max_filesize 10M
+php_value post_max_size 12M
+
+# حد أقصى لوقت التنفيذ
+php_value max_execution_time 60
+php_value max_input_time 60
+
+# حد أقصى للذاكرة
+php_value memory_limit 256M
+
+# ============================================
+# 4. إعدادات الجلسات (Sessions)
+# ============================================
+php_value session.cookie_httponly 1
+php_value session.use_strict_mode 1
+php_value session.cookie_secure 1
+php_value session.cookie_samesite Strict
+php_value session.gc_maxlifetime 3600
+
+# ============================================
+# 5. رؤوس الأمان (Security Headers)
+# ============================================
+<IfModule mod_headers.c>
+    # منع نوع المحتوى من التغيير
+    Header set X-Content-Type-Options "nosniff"
+    
+    # حماية من Clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # حماية XSS
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Content Security Policy (عدّل حسب الحاجة)
+    Header set Content-Security-Policy "default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com data:;"
+    
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # حماية من Downgrade Attacks
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # منع المعلومات الحساسة في Cache
+    <FilesMatch "\.(php|cgi|pl)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires 0
+    </FilesMatch>
+</IfModule>
+
+# ============================================
+# 6. إعادة التوجيه إلى HTTPS (SSL)
+# ============================================
+# فعّل هذا القسم بعد تثبيت SSL Certificate
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ============================================
+# 7. إعادة التوجيه من www إلى non-www (أو العكس)
+# ============================================
+# إعادة التوجيه من www إلى non-www
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# أو من non-www إلى www (اختر واحد فقط)
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# ============================================
+# 8. Compression (ضغط الملفات)
+# ============================================
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+    AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
+    AddOutputFilterByType DEFLATE application/json application/xml application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml application/atom+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ============================================
+# 9. Browser Caching (تخزين مؤقت)
+# ============================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Fonts
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    
+    # PDFs
+    ExpiresByType application/pdf "access plus 1 month"
+    
+    # HTML
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# ============================================
+# 10. حماية من هجمات Brute Force
+# ============================================
+# حد أقصى لحجم الطلب
+LimitRequestBody 10485760
+
+# ============================================
+# 11. منع الوصول المباشر للمجلدات
+# ============================================
+# يتم التعامل معها في كل مجلد على حدة
+
+# ============================================
+# 12. إعادة توجيه الأخطاء (Custom Error Pages)
+# ============================================
+ErrorDocument 404 /smartedu/public/errors/404.php
+ErrorDocument 403 /smartedu/public/errors/403.php
+ErrorDocument 500 /smartedu/public/errors/500.php
+
+# ============================================
+# 13. حماية من SQL Injection و XSS في URL
+# ============================================
+<IfModule mod_rewrite.c>
+    # Block SQL injections
+    RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [OR]
+    RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
+    RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC,OR]
+    RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC,OR]
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.) [OR]
+    RewriteCond %{QUERY_STRING} (localhost|loopback|127\.0\.0\.1) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================
+# 14. تعطيل عرض معلومات السيرفر
+# ============================================
+ServerSignature Off
+
+# ============================================
+# ملاحظات مهمة
+# ============================================
+# 1. تأكد من تفعيل SSL قبل تفعيل إعادة التوجيه إلى HTTPS
+# 2. عدّل مسارات ملفات الأخطاء حسب هيكل مشروعك
+# 3. راجع Content Security Policy وعدّله حسب احتياجات موقعك
+# 4. بعد النشر، اختبر الموقع بالكامل للتأكد من عمل كل شيء
+# 5. راقب ملفات اللوج بانتظام
+
+# آخر تحديث: 13 أكتوبر 2025

@@ -1,0 +1,5 @@
+# حماية مجلد config
+# منع الوصول المباشر لجميع الملفات
+
+Order deny,allow
+Deny from all

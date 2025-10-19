@@ -1,0 +1,162 @@
+# SmartEdu Hub - Git Ignore File
+
+# ============================================
+# ملفات الإعدادات الحساسة (CRITICAL)
+# ============================================
+.env
+.env.local
+.env.production
+config/database.php
+config/smtp.php
+config/api_keys.php
+
+# ============================================
+# ملفات قواعد البيانات (DATABASE FILES)
+# ============================================
+*.sql
+*.sql.backup
+*.sqlite
+*.db
+backup/
+database_backups/
+
+# ============================================
+# ملفات التطوير والاختبار (DEVELOPMENT)
+# ============================================
+# Test files
+test/
+test.php
+test_*.php
+check_*.php
+info.php
+phpinfo.php
+view_users.php
+
+# Debug files
+debug.log
+error.log
+php_errors.log
+
+# Setup files (حذفها بعد التثبيت)
+setup/
+setup.php
+setup_database.php
+setup_mysql80.php
+
+# Fix scripts
+fix_*.php
+fix_*.ps1
+update_*.php
+run_*.php
+clear_data.php
+add_initial_data.php
+create_demo_accounts.php
+
+# ============================================
+# ملفات الرفع والمحتوى (UPLOADS)
+# ============================================
+uploads/*
+!uploads/.htaccess
+!uploads/index.php
+assets/images/uploads/
+public/uploads/
+
+# ============================================
+# ملفات التوثيق (DOCUMENTATION)
+# ============================================
+*.md
+!README.md
+!INSTALLATION.md
+!USER_GUIDE.md
+ROADMAP.md
+PROJECT_*.md
+DAY*.md
+COMPLETION_*.md
+*_REPORT.md
+*_FIX.md
+*_STATUS.md
+*_SUMMARY.md
+*_PLAN.md
+*_GUIDE.md
+تقرير_*.md
+جدول_*.md
+خطة_*.md
+
+# ============================================
+# ملفات النظام (SYSTEM FILES)
+# ============================================
+# PHP
+*.log
+*.cache
+sessions/
+tmp/
+temp/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# ============================================
+# ملفات المحررات (IDE FILES)
+# ============================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# ============================================
+# ملفات التبعيات (DEPENDENCIES)
+# ============================================
+# Composer
+vendor/
+composer.lock
+
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+npm-debug.log
+
+# ============================================
+# ملفات مؤقتة (TEMPORARY FILES)
+# ============================================
+*.tmp
+*.temp
+*.bak
+*.old
+*_backup
+*_old
+~*
+
+# ============================================
+# ملفات خاصة بالمشروع (PROJECT SPECIFIC)
+# ============================================
+# قاعدة البيانات التجريبية
+database_schema_sqlite.sql
+database_teacher_student_links.sql
+apply_links_table.sql
+add_lesson_status.sql
+add_accept_messages_column.sql
+
+# ملفات HTML للاختبار
+index.html
+START.html
+
+# Scripts
+*.ps1
+quick-links.php
+
+# ============================================
+# ملفات يجب رفعها (KEEP THESE)
+# ============================================
+# Core files (هذه يجب رفعها)
+!.htaccess
+!.env.example
+!index.php
+!README.md
+!INSTALLATION.md

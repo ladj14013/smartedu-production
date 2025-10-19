@@ -1,0 +1,96 @@
+/* التنسيقات الخاصة بصفحة النتائج للهواتف */
+@media (max-width: 768px) {
+    .main-content {
+        margin-right: 0;
+        padding: 10px;
+    }
+
+    .results-container {
+        padding: 10px;
+    }
+
+    .results-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .results-title {
+        font-size: 1.5rem;
+    }
+
+    .results-filters {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .filter-item {
+        width: 100%;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .result-card {
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .result-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .score-badge {
+        margin: 10px auto;
+    }
+
+    .result-details {
+        margin-top: 15px;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .detail-item {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .chart-container {
+        height: 200px;
+        margin: 15px 0;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .results-title {
+        font-size: 1.3rem;
+    }
+
+    .score-badge {
+        font-size: 1.5rem;
+    }
+
+    .chart-container {
+        height: 180px;
+    }
+
+    .detail-item {
+        font-size: 0.85rem;
+    }
+}
