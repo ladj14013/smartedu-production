@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $upload_path = $upload_dir . $new_filename;
                     
                     if (move_uploaded_file($_FILES['pdf_file']['tmp_name'], $upload_path)) {
-                        $pdf_url = '../../uploads/lessons/' . $new_filename;
+                        $pdf_url = 'uploads/lessons/' . $new_filename;
                     } else {
                         $error = 'فشل رفع الملف، يرجى المحاولة مرة أخرى';
                     }

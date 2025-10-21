@@ -539,13 +539,13 @@ $average_score = $completed_exercises > 0 ? round($total_score / $completed_exer
                                         ملف PDF التعليمي
                                     </span>
                                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                        <a href="<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
+                                        <a href="../../<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
                                            target="_blank" 
                                            class="btn-pdf-action btn-view">
                                             <i class="fas fa-eye"></i>
                                             عرض
                                         </a>
-                                        <a href="<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
+                                        <a href="../../<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
                                            download 
                                            class="btn-pdf-action btn-download">
                                             <i class="fas fa-download"></i>
@@ -562,7 +562,7 @@ $average_score = $completed_exercises > 0 ? round($total_score / $completed_exer
                                 <div style="position: relative; background: #f3f4f6;">
                                     <iframe 
                                         id="pdfViewer"
-                                        src="<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
+                                        src="../../<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
                                         style="width: 100%; height: 700px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px; background: white; display: block;"
                                         frameborder="0"
                                         onload="checkPdfLoad(this)">
@@ -573,14 +573,14 @@ $average_score = $completed_exercises > 0 ? round($total_score / $completed_exer
                                         <h3 style="color: #374151; margin-bottom: 15px;">متصفحك لا يدعم عرض PDF مباشرة</h3>
                                         <p style="color: #6b7280; margin-bottom: 25px;">يمكنك تحميل الملف أو فتحه في تبويب جديد</p>
                                         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                                            <a href="<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
+                                            <a href="../../<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
                                                target="_blank" 
                                                class="btn-pdf-action btn-view"
                                                style="display: inline-flex;">
                                                 <i class="fas fa-external-link-alt"></i>
                                                 فتح في تبويب جديد
                                             </a>
-                                            <a href="<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
+                                            <a href="../../<?php echo htmlspecialchars($lesson['pdf_url']); ?>" 
                                                download 
                                                class="btn-pdf-action btn-download"
                                                style="display: inline-flex;">

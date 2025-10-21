@@ -298,7 +298,7 @@ $total_exercises = count($exercises);
                             <p>🎥 <strong>فيديو:</strong> <a href="<?php echo htmlspecialchars($lesson['video_url']); ?>" target="_blank"><?php echo htmlspecialchars($lesson['video_url']); ?></a></p>
                         <?php endif; ?>
                         <?php if ($lesson['pdf_url']): ?>
-                            <p>📄 <strong>PDF:</strong> <a href="<?php echo htmlspecialchars($lesson['pdf_url']); ?>" target="_blank"><?php echo htmlspecialchars($lesson['pdf_url']); ?></a></p>
+                            <p>📄 <strong>PDF:</strong> <a href="../../<?php echo htmlspecialchars($lesson['pdf_url']); ?>" target="_blank"><?php echo htmlspecialchars($lesson['pdf_url']); ?></a></p>
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>

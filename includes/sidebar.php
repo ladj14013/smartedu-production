@@ -34,12 +34,12 @@ $colors = $role_colors[$current_role] ?? $role_colors['student'];
 // قوائم التنقل لكل دور
 $navigation = [
     'directeur' => [
-        ['icon' => '🏠', 'title' => 'الرئيسية', 'url' => '../dashboard/directeur/index.php', 'file' => 'index.php'],
-        ['icon' => '👥', 'title' => 'المستخدمون', 'url' => '../dashboard/directeur/users.php', 'file' => 'users.php'],
-        ['icon' => '📖', 'title' => 'المواد', 'url' => '../dashboard/directeur/subjects.php', 'file' => 'subjects.php'],
-        ['icon' => '🎯', 'title' => 'المراحل', 'url' => '../dashboard/directeur/stages.php', 'file' => 'stages.php'],
-        ['icon' => '📚', 'title' => 'الدروس', 'url' => '../dashboard/directeur/edit-lesson.php', 'file' => 'edit-lesson.php'],
-        ['icon' => '💬', 'title' => 'الرسائل', 'url' => '../dashboard/directeur/messages.php', 'file' => 'messages.php'],
+        ['icon' => '🏠', 'title' => 'الرئيسية', 'url' => 'index.php', 'file' => 'index.php'],
+        ['icon' => '👥', 'title' => 'المستخدمون', 'url' => 'users.php', 'file' => 'users.php'],
+        ['icon' => '📖', 'title' => 'المواد', 'url' => 'subjects.php', 'file' => 'subjects.php'],
+        ['icon' => '🎯', 'title' => 'المراحل', 'url' => 'stages.php', 'file' => 'stages.php'],
+        ['icon' => '📚', 'title' => 'الدروس', 'url' => 'edit-lesson.php', 'file' => 'edit-lesson.php'],
+        ['icon' => '💬', 'title' => 'الرسائل', 'url' => 'messages.php', 'file' => 'messages.php'],
     ],
     'supervisor_general' => [
         ['icon' => '🏠', 'title' => 'الرئيسية', 'url' => '../dashboard/supervisor_general/index.php', 'file' => 'index.php'],

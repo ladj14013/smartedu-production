@@ -99,7 +99,7 @@ $stmt->execute();
                             <div class="lesson-pdf" style="margin-top: 2rem;">
                                 <h3>📄 ملف PDF</h3>
                                 <div style="margin-top: 1rem;">
-                                    <a href="<?php echo htmlspecialchars($lesson['pdf_url']); ?>" target="_blank" class="btn btn-primary">
+                                    <a href="../../<?php echo htmlspecialchars($lesson['pdf_url']); ?>" target="_blank" class="btn btn-primary">
                                         تحميل PDF
                                     </a>
                                 </div>

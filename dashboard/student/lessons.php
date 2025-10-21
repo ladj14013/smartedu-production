@@ -469,6 +469,9 @@ function isLessonCompleted($pdo, $student_id, $lesson_id) {
                                     <span class="meta-badge badge-teacher">
                                         👨‍🏫 <?php echo htmlspecialchars($lesson['teacher_name'] ?? 'غير معروف'); ?>
                                     </span>
+                                    <span class="meta-badge badge-level">
+                                        <?php echo htmlspecialchars($lesson['level_name'] ?? 'غير معروف'); ?>
+                                    </span>
                                     <?php if ($lesson['type'] == 'public'): ?>
                                         <span class="meta-badge badge-public">🌍 عام</span>
                                     <?php else: ?>

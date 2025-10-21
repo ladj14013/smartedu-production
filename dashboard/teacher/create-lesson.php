@@ -67,23 +67,106 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // رفع ملف PDF إذا وجد
             $pdf_url = null;
             if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
-                $upload_dir = '../../uploads/lessons/';
-                if (!is_dir($upload_dir)) {
-                    mkdir($upload_dir, 0777, true);
+                // --- جلب معلومات المستوى والمادة والمرحلة ---
+                $level_stmt = $db->prepare("SELECT name FROM levels WHERE id = ?");
+                $level_stmt->execute([$level_id]);
+                $level_row = $level_stmt->fetch(PDO::FETCH_ASSOC);
+                $level_name = $level_row ? $level_row['name'] : 'level';
+
+                $subject_name = $subject_info['subject_name'] ?? 'subject';
+                $stage_name = $subject_info['stage_name'] ?? 'stage';
+                $teacher_name = $_SESSION['user_name'] ?? 'teacher';
+
+                // transliteration بسيط (استبدال المسافات وحروف عربية)
+                function slugify($text) {
+                    $text = preg_replace('~[\s]+~u', '-', $text);
+                    $text = str_replace(
+                        ['أ','إ','آ','ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي','ء','ى','ة'],
+                        ['a','i','a','a','b','t','th','j','h','kh','d','dh','r','z','s','sh','s','d','t','z','a','gh','f','q','k','l','m','n','h','w','y','a','a','h'],
+                        $text
+                    );
+                    $text = preg_replace('/[^A-Za-z0-9\-]/', '', $text);
+                    return strtolower($text);
                 }
-                
+
+                // جلب بيانات المستخدم (الاسم واللقب)
+                $user_stmt = $db->prepare("SELECT nom, prenom FROM users WHERE id = ?");
+                $user_stmt->execute([$teacher_id]);
+                $user_row = $user_stmt->fetch(PDO::FETCH_ASSOC);
+                $nom = isset($user_row['nom']) ? slugify($user_row['nom']) : 'nom';
+                $prenom = isset($user_row['prenom']) ? slugify($user_row['prenom']) : 'prenom';
+
+                $stage_id = $teacher_stage_id;
+                $level_id = $level_id;
+                $subject_id = $teacher_subject_id;
+
+                // سنحدد lesson_id بعد الإدخال
+                $lesson_slug = slugify($title);
+
+                // هل الملف تمرين؟
+                $is_exercise = false;
+                if (isset($_POST['is_exercise']) && $_POST['is_exercise'] == '1') {
+                    $is_exercise = true;
+                } elseif (stripos($lesson_slug, 'tamreen') !== false || stripos($lesson_slug, 'exercise') !== false) {
+                    $is_exercise = true;
+                }
+
                 $file_extension = strtolower(pathinfo($_FILES['pdf_file']['name'], PATHINFO_EXTENSION));
                 if ($file_extension !== 'pdf') {
                     $error = 'يرجى رفع ملف PDF فقط';
                 } else {
-                    $new_filename = 'lesson_' . time() . '_' . uniqid() . '.pdf';
-                    $upload_path = $upload_dir . $new_filename;
-                    
+                    // إدخال الدرس أولاً للحصول على lesson_id
+                    $pdf_url = null;
+                    $status = ($type === 'private') ? 'approved' : 'pending';
+                    $stmt = $db->prepare("
+                        INSERT INTO lessons (title, content, video_url, pdf_url, subject_id, level_id, author_id, type, is_locked, status)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ");
+                    $stmt->execute([
+                        $title,
+                        $content,
+                        !empty($video_url) ? $video_url : null,
+                        null, // pdf_url مؤقتاً
+                        $teacher_subject_id,
+                        $level_id,
+                        $teacher_id,
+                        $type,
+                        $is_locked,
+                        $status
+                    ]);
+                    $lesson_id = $db->lastInsertId();
+
+                    // بناء اسم الملف حسب الهيكل المقترح
+                    $filename_parts = [$stage_id, $level_id, $subject_id, $lesson_id, $lesson_slug];
+                    if ($is_exercise) $filename_parts[] = 'exercise';
+                    $filename_parts[] = $teacher_id . '[' . $nom . ',' . $prenom . ']';
+                    $new_filename = implode('/', $filename_parts) . '.pdf';
+
+                    // بناء المسار الكامل
+                    $upload_dir = '../../uploads/' . $stage_id . '/' . $level_id . '/' . $subject_id . '/' . $lesson_id . '/';
+                    if (!is_dir($upload_dir)) {
+                        mkdir($upload_dir, 0777, true);
+                    }
+                    $upload_path = $upload_dir . $lesson_slug . '-' . $teacher_id . '[' . $nom . ',' . $prenom . '].pdf';
+
                     if (move_uploaded_file($_FILES['pdf_file']['tmp_name'], $upload_path)) {
-                        $pdf_url = '../../uploads/lessons/' . $new_filename;
+                        $pdf_url = 'uploads/' . $stage_id . '/' . $level_id . '/' . $subject_id . '/' . $lesson_id . '/' . $lesson_slug . '-' . $teacher_id . '[' . $nom . ',' . $prenom . '].pdf';
+                        // تحديث pdf_url في الدرس
+                        $update_stmt = $db->prepare("UPDATE lessons SET pdf_url = ? WHERE id = ?");
+                        $update_stmt->execute([$pdf_url, $lesson_id]);
                     } else {
                         $error = 'فشل رفع الملف، يرجى المحاولة مرة أخرى';
                     }
+                }
+                // رسالة مختلفة حسب نوع الدرس
+                if (empty($error)) {
+                    if ($type === 'private') {
+                        set_flash_message('success', 'تم إضافة الدرس الخاص بنجاح! الدرس متاح الآن لطلابك.');
+                    } else {
+                        set_flash_message('success', 'تم إرسال الدرس للمراجعة! سيتم نشره بعد موافقة مشرف المادة.');
+                    }
+                    header("Location: lessons.php");
+                    exit();
                 }
             }
             

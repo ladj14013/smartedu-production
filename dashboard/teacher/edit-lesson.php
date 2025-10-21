@@ -40,11 +40,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_lesson'])) {
     $title = sanitize_input($_POST['title'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $video_url = sanitize_input($_POST['video_url'] ?? '');
-    $pdf_url = sanitize_input($_POST['pdf_url'] ?? '');
+    $pdf_url = $lesson['pdf_url']; // Keep existing PDF by default
     $type = $_POST['type'] ?? 'public';
-    
+
+    // Handle PDF file upload
+    if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
+        $upload_dir = '../../uploads/lessons/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+
+        $file_extension = strtolower(pathinfo($_FILES['pdf_file']['name'], PATHINFO_EXTENSION));
+        if ($file_extension === 'pdf') {
+            $new_filename = 'lesson_' . time() . '_' . uniqid() . '.pdf';
+            $upload_path = $upload_dir . $new_filename;
+
+            if (move_uploaded_file($_FILES['pdf_file']['tmp_name'], $upload_path)) {
+                // Delete old PDF file if exists
+                if (!empty($lesson['pdf_url']) && file_exists('../../' . $lesson['pdf_url'])) {
+                    unlink('../../' . $lesson['pdf_url']);
+                }
+                $pdf_url = 'uploads/lessons/' . $new_filename;
+            } else {
+                set_flash_message('error', 'فشل رفع الملف، يرجى المحاولة مرة أخرى');
+            }
+        } else {
+            set_flash_message('error', 'يرجى رفع ملف PDF فقط');
+        }
+    }
+
     if (!empty($title) && !empty($content)) {
-        $query = "UPDATE lessons SET title = :title, content = :content, video_url = :video_url, 
+        $query = "UPDATE lessons SET title = :title, content = :content, video_url = :video_url,
                   pdf_url = :pdf_url, type = :type WHERE id = :lesson_id";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':title', $title);
@@ -54,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_lesson'])) {
         $stmt->bindParam(':type', $type);
         $stmt->bindParam(':lesson_id', $lesson_id);
         $stmt->execute();
-        
+
         set_flash_message('success', 'تم تحديث الدرس بنجاح.');
         header("Location: edit-lesson.php?id=" . $lesson_id);
         exit();
@@ -233,6 +259,21 @@ if (isset($_GET['delete_exercise'])) {
             color: #6b7280;
             margin-top: 8px;
         }
+
+        .file-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed #bdbdbd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .file-input:hover {
+            border-color: #4CAF50;
+            background: #fafafa;
+        }
     </style>
 </head>
 <body>
@@ -261,7 +302,7 @@ if (isset($_GET['delete_exercise'])) {
             <!-- تعديل الدرس -->
             <div class="card">
                 <h3>📝 معلومات الدرس</h3>
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="title">عنوان الدرس <span style="color: #ef4444;">*</span></label>
                         <input 
@@ -297,17 +338,27 @@ if (isset($_GET['delete_exercise'])) {
                     </div>
                     
                     <div class="form-group">
-                        <label for="pdf_url">رابط ملف PDF (اختياري)</label>
-                        <input 
-                            type="url" 
-                            id="pdf_url" 
-                            name="pdf_url"
-                            class="form-control"
-                            value="<?php echo htmlspecialchars($lesson['pdf_url'] ?? ''); ?>"
-                            placeholder="https://example.com/file.pdf"
+                        <label for="pdf_file">ملف PDF مرفق (اختياري)</label>
+                        <?php if (!empty($lesson['pdf_url'])): ?>
+                            <div style="margin-bottom: 10px; padding: 10px; background: #e8f5e9; border-radius: 6px; border-left: 4px solid #4CAF50;">
+                                <span style="color: #2e7d32;">📄 الملف الحالي: </span>
+                                <a href="../../<?php echo htmlspecialchars($lesson['pdf_url']); ?>" target="_blank" style="color: #1976d2; text-decoration: underline;">
+                                    عرض الملف
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                        <input
+                            type="file"
+                            id="pdf_file"
+                            name="pdf_file"
+                            accept=".pdf"
+                            class="file-input"
                         >
+                        <small style="display: block; margin-top: 5px; color: #6b7280;">
+                            📄 يمكنك رفع ملف PDF جديد لاستبدال الملف الحالي (الحد الأقصى: 10 ميجابايت)
+                        </small>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="type">نوع الدرس</label>
                         <select id="type" name="type" class="form-control">
